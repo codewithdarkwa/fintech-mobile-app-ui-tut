@@ -7,6 +7,7 @@ class CreditCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         height: 220,
+        width: 350,
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
