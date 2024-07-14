@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+
+import '../widgets/top_up_sheet.dart';
 
 class TopUpPage extends StatefulWidget {
   const TopUpPage({super.key});
@@ -35,13 +38,12 @@ class _TopUpPageState extends State<TopUpPage> {
               name: "Bank Of America",
               account: "**** **** **** 1990",
               isSelected: selectedProvider == 'Bank Of America',
-              onChanged: (value){
-                if(value == true){
+              onChanged: (value) {
+                if (value == true) {
                   setState(() {
                     selectedProvider = 'Bank Of America';
                   });
                 }
-
               },
             ),
             PaymentProvider(
@@ -49,13 +51,12 @@ class _TopUpPageState extends State<TopUpPage> {
               name: "U.S Bank",
               account: "**** **** **** 1990",
               isSelected: selectedProvider == 'U.S Bank',
-              onChanged: (value){
-                if(value == true){
+              onChanged: (value) {
+                if (value == true) {
                   setState(() {
                     selectedProvider = 'U.S Bank';
                   });
                 }
-
               },
             ),
             const Text(
@@ -67,8 +68,8 @@ class _TopUpPageState extends State<TopUpPage> {
               name: "Paypal",
               account: "Easy payment",
               isSelected: selectedProvider == 'Paypal',
-              onChanged: (value){
-                if(value == true){
+              onChanged: (value) {
+                if (value == true) {
                   setState(() {
                     selectedProvider = 'Paypal';
                   });
@@ -80,8 +81,8 @@ class _TopUpPageState extends State<TopUpPage> {
               name: "Apple pay",
               account: "Easy payment",
               isSelected: selectedProvider == 'Apple pay',
-              onChanged: (value){
-                if(value == true){
+              onChanged: (value) {
+                if (value == true) {
                   setState(() {
                     selectedProvider = 'Apple pay';
                   });
@@ -93,18 +94,29 @@ class _TopUpPageState extends State<TopUpPage> {
               name: "Google pay",
               account: "Easy payment",
               isSelected: selectedProvider == 'Google pay',
-              onChanged: (value){
-                if(value == true){
+              onChanged: (value) {
+                if (value == true) {
                   setState(() {
                     selectedProvider = 'Google pay';
                   });
                 }
               },
             ),
-
             ElevatedButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> const TopUpPage()));
+                showBarModalBottomSheet(
+                  context: context,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20)
+                    )
+                  ),
+                  builder: (context) =>  TopUpBottomSheet(
+                    selectedProvider: selectedProvider,
+                    image: getImageForProvider(selectedProvider),
+                    account:getAccountForProvider(selectedProvider)
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
@@ -123,6 +135,34 @@ class _TopUpPageState extends State<TopUpPage> {
         ),
       ),
     );
+  }
+
+  String getAccountForProvider(String provider) {
+    switch (provider) {
+      case 'Bank Of America':
+        return '**** **** **** 1990';
+      case 'U.S Bank':
+        return '**** **** **** 1990';
+      default:
+        return 'Easy Payment';
+    }
+  }
+
+  String getImageForProvider(String provider) {
+    switch (provider) {
+      case 'Bank Of America':
+        return 'assets/bank_of_america.jpg';
+      case 'U.S Bank':
+        return 'assets/us_bank.png';
+      case 'Paypal':
+        return 'assets/paypal.jpg';
+      case 'Apple pay':
+        return 'assets/apple.png';
+      case 'Google pay':
+        return 'assets/google.png';
+      default:
+        return 'assets/default.png';
+    }
   }
 }
 
